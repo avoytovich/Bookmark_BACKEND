@@ -6,7 +6,7 @@ module.exports = {
       GroupOfBookmarksId: req.params.group,
     });
     SubGroupOfBookmarks.create(dataCreate)
-      .then((groupOfBookmarks) =>
+      .then((subGroupOfBookmarks) =>
         res.status(200).json({ message: 'subGroupOfBookmarks was created!' })
       )
       .catch((error) => res.status(404).send(error));

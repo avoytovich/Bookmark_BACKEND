@@ -53,6 +53,10 @@ module.exports = (app) => {
     '/user/:id/group/:group/subGroup/:subgroup/bookmark_list',
     bookmarkController.list
   );
+  app.post(
+    '/user/:id/group/:group/subgroup/:subgroup/bookmark/:bookmark/bookmark_move',
+    bookmarkController.move
+  );
   app.delete(
     '/user/:id/group/:group/subGroup/:subgroup/bookmark_delete',
     bookmarkController.delete
