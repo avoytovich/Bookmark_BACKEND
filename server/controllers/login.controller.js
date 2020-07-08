@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const secret_key = require('./../../config/jwt.secretkey').key;
 const secret_refresh = require('./../../config/jwt.secretkey').refreshKey;
 const constants = require('./../helper/constants');
+const { login: messages } = require('./../helper/messages');
 
 const tokenList = {};
 
@@ -26,7 +27,7 @@ module.exports = {
                 expiresIn: constants.TIME_REFRESH_TOKEN,
               });
               const response = {
-                message: 'Congratulation, you are logged!',
+                message: messages.login,
                 token,
                 refreshToken,
                 user_id: user.id,
@@ -34,30 +35,21 @@ module.exports = {
               tokenList[refreshToken] = response;
               return res.status(200).json(response);
             } else if (!user.isActivated) {
-              return res
-                .status(400)
-                .json({ message: "Your account isn't activated" });
+              return res.status(400).json({ message: messages.notActivated });
             }
           } else if (user.isActivated) {
-            return res
-              .status(400)
-              .json({ message: 'Inputted password is not valid' });
+            return res.status(400).json({ message: messages.notValidPassword });
           } else if (!user.isActivated) {
-            return res
-              .status(400)
-              .json({ message: "Your account isn't activated" });
+            return res.status(400).json({ message: messages.notActivated });
           }
         } else {
           User.create({
             email: req.body.email,
             password: passwordHash.generate(req.body.password),
             isActivated: false,
-          }).then((user) => {
-            res.status(200).json({
-              message:
-                'Congratulation, you will be informed by email, once your account will be activated',
-            });
-          });
+          }).then((user) =>
+            res.status(200).json({ message: messages.soonActivate })
+          );
         }
       })
       .catch((error) => res.status(401).send(error));

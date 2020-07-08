@@ -3,6 +3,7 @@ const {
   GroupOfBookmarks,
   SubGroupOfBookmarks,
 } = require('./../models');
+const { bookmark: messages } = require('./../helper/messages');
 
 module.exports = {
   create(req, res) {
@@ -10,9 +11,7 @@ module.exports = {
       SubGroupOfBookmarksId: req.params.subgroup,
     });
     Bookmarks.create(dataCreate)
-      .then((bookmark) =>
-        res.status(200).json({ message: 'bookmark was created!' })
-      )
+      .then((bookmark) => res.status(200).json({ message: messages.created }))
       .catch((error) => res.status(404).send(error));
   },
   list(req, res) {
@@ -55,7 +54,7 @@ module.exports = {
                     bookmark
                       .destroy()
                       .then(() =>
-                        res.status(200).json({ message: 'bookmark was moved!' })
+                        res.status(200).json({ message: messages.moved })
                       )
                       .catch((error) => res.status(404).send(error));
                   })
