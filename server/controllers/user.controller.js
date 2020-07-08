@@ -8,6 +8,8 @@ const {
   Bookmarks,
 } = require('./../models');
 
+const { user: messages } = require('./../helper/messages');
+
 module.exports = {
   retrieve(req, res) {
     User.findOne({
@@ -37,9 +39,7 @@ module.exports = {
                 UserId: req.body.id,
               });
           });
-        res.status(200).json({
-          message: 'User is activated, you have to sent mail!',
-        });
+        res.status(200).json({ message: messages.activated });
       })
       .catch((error) => res.status(400).send(error));
   },
@@ -49,9 +49,7 @@ module.exports = {
         user.update({
           isActivated: false,
         });
-        res.status(200).json({
-          message: 'User is deactivated, you have to sent mail!',
-        });
+        res.status(200).json({ message: messages.deactivated });
       })
       .catch((error) => res.status(400).send(error));
   },

@@ -1,5 +1,7 @@
 const { SubGroupOfBookmarks } = require('./../models');
 
+const { subGroupOfBookmark: messages } = require('./../helper/messages');
+
 module.exports = {
   create(req, res) {
     const dataCreate = Object.assign({}, req.body, {
@@ -7,7 +9,7 @@ module.exports = {
     });
     SubGroupOfBookmarks.create(dataCreate)
       .then((subGroupOfBookmarks) =>
-        res.status(200).json({ message: 'subGroupOfBookmarks was created!' })
+        res.status(200).json({ message: messages.created })
       )
       .catch((error) => res.status(404).send(error));
   },
